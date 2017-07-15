@@ -1,28 +1,19 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
+import Header from './components/Header.js'
 
 const platformText = {ios: 'iOS', android: 'Android', web: 'Web' }
 
-export default class ExampleApp extends Component {
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Header />
         <Text style={styles.welcome}>
-          Welcome to React Native! ({platformText[Platform.OS]})
+          WelcomeEEE 444 Yesysgd to React Native! ({platformText[Platform.OS]})
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          To get started, edit 555234 index.android.js
         </Text>
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}

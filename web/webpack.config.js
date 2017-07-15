@@ -61,7 +61,7 @@ const plugins = [
     minChunks: module => module.context && module.context.indexOf('node_modules/') !== -1,
   }),
 
-  ...(__DEV__ ? [] : [
+  ...(__DEV__ ? config.developmentPlugins : [
     ...config.productionPlugins,
 
     // Add any app-specific production plugins here.
@@ -74,9 +74,21 @@ if (__OFFLINE__) plugins.push(new OfflinePlugin())
 module.exports = {
   devServer: {
     contentBase: outputPath,
+    // enable HMR
+    hot: true,
+    // embed the webpack-dev-server runtime into the bundle
+    inline: true,
+    // serve index.html in place of 404 responses to allow HTML5 history
+    historyApiFallback: true,
+    port: 3000,
   },
   entry: {
-    app: path.join(__dirname, '../index.web.js')
+    app: __DEV__ ? [
+      'webpack-dev-server/client?http://localhost:3000',
+      'webpack/hot/only-dev-server',
+      'react-hot-loader/patch',
+      path.join(__dirname, '../index.web.js'),
+    ] : path.join(__dirname, '../index.web.js')
   },
   module: {
     loaders: [
@@ -84,7 +96,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         // TODO: Set up react-hot-loader during development.
-        loaders: [ 'babel-loader?cacheDirectory=true' ],
+        loaders: ['babel-loader?cacheDirectory=true'],
       },
       ...config.loaders,
     ]

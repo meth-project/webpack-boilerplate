@@ -1,5 +1,8 @@
+import React from 'react'
 import { AppRegistry } from 'react-native';
-import App from './app'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader';
+import App from './src/App'
 
 // Sets up offline caching for all assets (disabled by default)
 // You can enable offline caching by changing
@@ -8,7 +11,24 @@ if (__OFFLINE__) {
   require('offline-plugin/runtime').install()
 }
 
-AppRegistry.registerComponent('ExampleApp', () => App);
+const renderApp = () => <AppContainer>
+  <App />
+</AppContainer>;
+
+AppRegistry.registerComponent('ReactNativeWebBoilerplate', () => renderApp);
+
+if (module.hot) {
+  // $FlowFixMe
+  module.hot.accept();
+
+  const renderHotApp = () => <AppContainer>
+    <App />
+  </AppContainer>;
+
+  AppRegistry.registerComponent('ExampleApp', () => renderHotApp);
+}
+
 AppRegistry.runApplication('ExampleApp', {
-  rootTag: window.document.getElementById('react-root'),
+  rootTag: document.getElementById('react-root')
 });
+

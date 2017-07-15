@@ -31,6 +31,11 @@ module.exports = {
     }),
   ],
 
+  developmentPlugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+  ],
+
   loaders: [
     {
       test: /\.ttf$/,
