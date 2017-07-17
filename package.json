@@ -7,7 +7,7 @@
 		"test": "jest",
 		"web:build:vendor": "webpack --env.development --config vendor.webpack.config.js",
 		"web": "webpack-dev-server --env.development --config webpack.config.js",
-		"web:build": "webpack --env.production --config vendor.webpack.config.js && webpack --env.production --config webpack.config.js",
+		"web:build": "webpack --env.production --config vendor.webpack.config.js && webpack --env.production --config webpack.config.js --progress",
 		"web:serve": "http-serve -p 3001 --gzip true ./build"
 	},
 	"dependencies": {
