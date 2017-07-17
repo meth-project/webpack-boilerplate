@@ -1,14 +1,14 @@
-// @flow
-/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path')
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+// const OfflinePlugin = require('offline-plugin')
 // const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
   productionPlugins: [
-    new LodashModuleReplacementPlugin,
+    new LodashModuleReplacementPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       mangle: true,
@@ -32,6 +32,7 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8,
     }),
+    // new OfflinePlugin(),
   ],
 
   developmentPlugins: [

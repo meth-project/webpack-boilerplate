@@ -5,9 +5,9 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-		"web:build:vendor": "NODE_ENV=development webpack --config vendor.webpack.config.js",
-		"web": "NODE_ENV=development webpack-dev-server --config webpack.config.js",
-		"web:build": "NODE_ENV=production webpack --config vendor.webpack.config.js && NODE_ENV=production webpack --config webpack.config.js",
+		"web:build:vendor": "webpack --env.development --config vendor.webpack.config.js",
+		"web": "webpack-dev-server --env.development --config webpack.config.js",
+		"web:build": "webpack --env.production --config vendor.webpack.config.js && webpack --env.production --config webpack.config.js",
 		"web:serve": "http-serve -p 3001 --gzip true ./build"
 	},
 	"dependencies": {
@@ -41,8 +41,8 @@
 		"react-hot-loader": "next",
 		"react-test-renderer": "16.0.0-alpha.6",
 		"url-loader": "0.5.8",
-		"webpack": "2.4.1",
-		"webpack-dev-server": "2.4.2"
+		"webpack": "3.3.0",
+		"webpack-dev-server": "2.5.0"
 	},
 	"jest": {
 		"preset": "react-native",
