@@ -3,9 +3,12 @@
 const path = require('path')
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+// const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
   productionPlugins: [
+    new LodashModuleReplacementPlugin,
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       mangle: true,
@@ -37,14 +40,23 @@ module.exports = {
   ],
 
   loaders: [
+    // {
+    //   test: /\.(js)$/,
+    //   enforce: 'pre',
+    //   use: [
+    //     {
+    //       options: {
+    //         formatter: eslintFormatter,
+    //       },
+    //       loader: require.resolve('eslint-loader'),
+    //     },
+    //   ],
+    //   include: path.join(__dirname, './src'),
+    // },
     {
       test: /\.ttf$/,
       loader: 'url-loader',
       include: path.resolve(__dirname, '../node_modules/react-native-vector-icons'),
-    },
-    {
-      test: /\.json$/,
-      loader: 'json-loader',
     },
     {
       // Many react-native libraries do not compile their ES6 JS.

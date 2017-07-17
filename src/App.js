@@ -10,7 +10,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <Header />
         <Text style={styles.welcome}>
-          WelcomeEEE 444 Yesysgd to React Native! ({platformText[Platform.OS]})
+          WelcomeEEE 555 Yesysgd to React Native! ({platformText[Platform.OS]})
         </Text>
         <Text style={styles.instructions}>
           To get started, edit 555234 index.android.js
