@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 // const OfflinePlugin = require('offline-plugin')
-// const eslintFormatter = require('react-dev-utils/eslintFormatter');
+const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
   productionPlugins: [
@@ -41,19 +41,19 @@ module.exports = {
   ],
 
   loaders: [
-    // {
-    //   test: /\.(js)$/,
-    //   enforce: 'pre',
-    //   use: [
-    //     {
-    //       options: {
-    //         formatter: eslintFormatter,
-    //       },
-    //       loader: require.resolve('eslint-loader'),
-    //     },
-    //   ],
-    //   include: path.join(__dirname, './src'),
-    // },
+    {
+      test: /\.(js)$/,
+      enforce: 'pre',
+      use: [
+        {
+          options: {
+            formatter: eslintFormatter,
+          },
+          loader: 'eslint-loader',
+        },
+      ],
+      include: path.join(__dirname, './src'),
+    },
     {
       test: /\.ttf$/,
       loader: 'url-loader',

@@ -1,0 +1,18 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    // Override any settings from the "parent" configuration
+    "jsx-a11y/href-no-hash": 0,
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-boolean-value": 0,
+    "indent": 1,
+    "prefer-const": 1,
+    "no-mixed-spaces-and-tabs": 0,
+    "react/sort-comp": 0,
+    /* remove this */
+    "no-alert" : 0,
+    "no-console": 0
+  }
+}

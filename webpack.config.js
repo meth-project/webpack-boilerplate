@@ -52,7 +52,7 @@ module.exports = (env = { development: false }) => (console.log('Environment', e
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js)$/,
         exclude: /node_modules/,
         // include: [
         //   path.resolve(__dirname, '..', 'index.web.js'),

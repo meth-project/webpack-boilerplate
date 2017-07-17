@@ -1,28 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
-import Header from './components/Header.js'
+import Header from './components/Header';
 
-const platformText = {ios: 'iOS', android: 'Android', web: 'Web' }
-
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Header />
-        <Text style={styles.welcome}>
-          Welcome 123 Yesysgd to React Native! ({platformText[Platform.OS]})
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit 555234 index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+const platformText = { ios: 'iOS', android: 'Android', web: 'Web' };
 
 const styles = StyleSheet.create({
   container: {
@@ -42,3 +22,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export default () => (
+  <View style={styles.container}>
+    <Header />
+    <Text style={styles.welcome}>
+      Welcome 123 Yesysgd to React Native! ({platformText[Platform.OS]})
+    </Text>
+    <Text style={styles.instructions}>
+      To get started, edit 555234 index.android.js
+    </Text>
+    <Text style={styles.instructions}>
+      Double tap R on your keyboard to reload,{'\n'}
+      Shake or press menu button for dev menu
+    </Text>
+  </View>
+);
