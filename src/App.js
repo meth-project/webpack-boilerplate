@@ -27,7 +27,7 @@ export default () => (
   <View style={styles.container}>
     <Header />
     <Text style={styles.welcome}>
-      Welcome 123 Yesysgd to React Native! ({platformText[Platform.OS]})
+      Welcome 12345 Yesysgd to React Native! ({platformText[Platform.OS]})
     </Text>
     <Text style={styles.instructions}>
       To get started, edit 555234 index.android.js

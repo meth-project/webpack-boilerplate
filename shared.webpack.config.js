@@ -3,7 +3,6 @@ const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 // const OfflinePlugin = require('offline-plugin')
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
   productionPlugins: [
@@ -47,7 +46,9 @@ module.exports = {
       use: [
         {
           options: {
-            formatter: eslintFormatter,
+            formatter: require("eslint/lib/formatters/stylish"),
+            emitError: false,
+            emitWarning: true,
           },
           loader: 'eslint-loader',
         },

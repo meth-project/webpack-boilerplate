@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 const sharedConfig = require('./shared.webpack.config.js')
 const vendorConfig = require('./vendor.webpack.config.js')
