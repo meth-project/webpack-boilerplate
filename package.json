@@ -5,8 +5,8 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-		"web": "webpack --env.development --config vendor.webpack.config.js && webpack-dev-server --env.development --config webpack.config.js",
-		"web:build": "webpack --env.production --config vendor.webpack.config.js && webpack --env.production --config webpack.config.js --progress",
+		"web": "webpack --env.development --env.vendor && webpack-dev-server --env.development",
+		"web:build": "webpack --env.production && webpack --env.production --progress",
 		"web:serve": "http-serve -p 3001 --gzip true ./build"
 	},
 	"dependencies": {
