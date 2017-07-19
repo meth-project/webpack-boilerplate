@@ -51,7 +51,7 @@ const plugins = (env = { development: false }) => (env.development === true ? [
     // new OfflinePlugin(),
   ])
 
-const loaders = [
+const loaders = (env = { development: false }) => ([
   {
     test: /\.(js)$/,
     enforce: 'pre',
@@ -61,6 +61,7 @@ const loaders = [
           formatter: require("eslint/lib/formatters/stylish"),
           emitError: false,
           emitWarning: true,
+          cache: true,
         },
         loader: 'eslint-loader',
       },
@@ -91,7 +92,7 @@ const loaders = [
     loader: 'file-loader',
     query: { name: 'sounds/[name]-[hash:16].[ext]' },
   },
-]
+])
 
 const resolve = {
   alias: {
@@ -124,7 +125,7 @@ const VendorConfig = (env = { development: false }) => ({
   },
   module: {
     noParse: /localforage\/dist\/localforage.js/,
-    loaders: loaders,
+    loaders: loaders(env),
   },
   plugins: [
     new CleanWebpackPlugin([path.join(__dirname, 'vendor')], { root: __dirname, verbose: true }),
@@ -186,18 +187,19 @@ const BuildConfig = (env = { development: false }) => ({
   },
   module: {
     loaders: [
+      ...loaders(env),
       {
         test: /\.(js)$/,
+        loader: 'babel-loader',
         exclude: /node_modules/,
-        // include: [
-        //   path.resolve(__dirname, '..', 'index.web.js'),
-        //   path.resolve(__dirname, '..', 'src'),
-        //   path.resolve(__dirname, '../node_modules/react-native-vector-icons'),
-        //   path.resolve(__dirname, '../node_modules/react-native-tab-view')
-        // ],
-        loaders: ['babel-loader?cacheDirectory=true'],
+        include: [
+          path.resolve(__dirname, 'index.web.js'),
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, '../node_modules/react-native-vector-icons'),
+          path.resolve(__dirname, '../node_modules/react-native-tab-view')
+        ],
+        query: { cacheDirectory: true },
       },
-      ...loaders,
     ]
   },
   output: {
