@@ -5,8 +5,7 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-		"web:build:vendor": "webpack --env.development --config vendor.webpack.config.js",
-		"web": "webpack-dev-server --env.development --config webpack.config.js",
+		"web": "webpack --env.development --config vendor.webpack.config.js && webpack-dev-server --env.development --config webpack.config.js",
 		"web:build": "webpack --env.production --config vendor.webpack.config.js && webpack --env.production --config webpack.config.js --progress",
 		"web:serve": "http-serve -p 3001 --gzip true ./build"
 	},
@@ -37,6 +36,7 @@
 		"eslint-plugin-import": "2.7.0",
 		"eslint-plugin-jsx-a11y": "6.0.2",
 		"eslint-plugin-react": "7.1.0",
+		"happypack": "^4.0.0-beta.1",
 		"html-webpack-plugin": "2.28.0",
 		"http-serve": "1.0.1",
 		"interpolate-html-plugin": "2.0.0",

@@ -7,7 +7,7 @@ const config = require('./shared.webpack.config.js')
 const outputPath = path.join(__dirname, 'vendor')
 const outputFilename = '[name]-[hash:16].dll.js'
 
-module.exports = {
+module.exports = (env = { development: false }) => ({
   entry: {
     // Put react-native-web / react dependencies in here.
     'react': [
@@ -36,17 +36,13 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin([outputPath], { root: __dirname, verbose: true }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-    ...config.productionPlugins,
+    ...(env.development === true ? config.developmentPlugins : config.productionPlugins),
 
     new webpack.DllPlugin({
       name: '[name]',
@@ -60,4 +56,4 @@ module.exports = {
     },
     extensions: ['.web.js', '.js', '.json'],
   },
-}
+})

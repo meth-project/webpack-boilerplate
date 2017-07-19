@@ -1,5 +1,6 @@
 {
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "rules": {
     // Override any settings from the "parent" configuration
     "jsx-a11y/href-no-hash": 0,

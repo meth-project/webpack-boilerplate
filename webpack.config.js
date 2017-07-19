@@ -6,27 +6,29 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 const sharedConfig = require('./shared.webpack.config.js')
 const vendorConfig = require('./vendor.webpack.config.js')
 const outputPath = path.join(__dirname, '/build/')
 const inputPath = path.join(__dirname, 'index.web.js')
 
+const addAssetHtmlFiles = (env) => {
+  return Object.keys(vendorConfig(env).entry).map((name) => {
+    const fileGlob = `${name}*.dll.js`
+    const paths = glob.sync(path.join(vendorConfig(env).output.path, fileGlob))
+    if (paths.length === 0) throw new Error(`Could not find ${fileGlob}!`)
+    if (paths.length > 1) throw new Error(`Too many files for ${fileGlob}! You should clean and rebuild.`)
+    return {
+      filepath: require.resolve(paths[0]),
+      includeSourcemap: false,
+      outputPath: 'js/vendor',
+      publicPath: '/js/vendor',
+    }
+  })
+}
 
-const addAssetHtmlFiles = Object.keys(vendorConfig.entry).map((name) => {
-  const fileGlob = `${name}*.dll.js`
-  const paths = glob.sync(path.join(vendorConfig.output.path, fileGlob))
-  if (paths.length === 0) throw new Error(`Could not find ${fileGlob}!`)
-  if (paths.length > 1) throw new Error(`Too many files for ${fileGlob}! You should clean and rebuild.`)
-  return {
-    filepath: require.resolve(paths[0]),
-    includeSourcemap: false,
-    outputPath: 'js/vendor',
-    publicPath: '/js/vendor',
-  }
-})
-
-module.exports = (env = { development: false }) => (console.log('Environment', env), {
+module.exports = (env = { development: false }) => ({
   devServer: {
     contentBase: outputPath,
     // enable HMR
@@ -72,10 +74,10 @@ module.exports = (env = { development: false }) => (console.log('Environment', e
   },
   plugins: [
     new CleanWebpackPlugin([outputPath], { root: __dirname, verbose: true }),
-    ...Object.keys(vendorConfig.entry).map(name =>
+    ...Object.keys(vendorConfig(env).entry).map(name =>
       new webpack.DllReferencePlugin({
         context: process.cwd(),
-        manifest: require(path.join(vendorConfig.output.path, `${name}-manifest.json`)),
+        manifest: require(path.join(vendorConfig(env).output.path, `${name}-manifest.json`)),
       })),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -94,7 +96,7 @@ module.exports = (env = { development: false }) => (console.log('Environment', e
       template: './index.html',
       inject: true,
     }),
-    new AddAssetHtmlPlugin(addAssetHtmlFiles),
+    new AddAssetHtmlPlugin(addAssetHtmlFiles(env)),
 
     new CopyWebpackPlugin([
       // Workaround for AddAssetHtmlPlugin not copying compressed .gz files
