@@ -1,6 +1,7 @@
 const path = require('path')
 const glob = require('glob')
 const webpack = require('webpack')
+const HappyPack = require('happypack')
 const InterpolateHtmlPlugin = require('interpolate-html-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
@@ -15,6 +16,9 @@ const plugins = (env = { development: false }) => (env.development === true ? [
     '__DEV__': env.development === true,
     '__OFFLINE__': env.development !== true,
   }),
+  new HappyPack({
+    loaders: ['babel-loader'],
+  }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NamedModulesPlugin(),
 ] : [
@@ -22,6 +26,9 @@ const plugins = (env = { development: false }) => (env.development === true ? [
       'process.env.NODE_ENV': JSON.stringify('production'),
       '__DEV__': env.development === true,
       '__OFFLINE__': env.development !== true,
+    }),
+    new HappyPack({
+      loaders: ['babel-loader'],
     }),
     new LodashModuleReplacementPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -79,7 +86,7 @@ const loaders = (env = { development: false }) => ([
     include: /node_modules\/react-native-/,
     // react-native-web is already compiled.
     exclude: /node_modules\/react-native-web\//,
-    loader: 'babel-loader',
+    loader: 'happypack/loader',
     query: { cacheDirectory: true },
   },
   {
@@ -185,7 +192,7 @@ const BuildConfig = (env = { development: false }) => ({
       ...loaders(env),
       {
         test: /\.(js)$/,
-        loader: 'babel-loader',
+        loader: 'happypack/loader',
         exclude: /node_modules/,
         include: [
           path.resolve(__dirname, 'index.web.js'),

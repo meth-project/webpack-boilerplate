@@ -25,4 +25,4 @@ Script | Description
 
 ## TODO
 
-Use haul for react native when it gets ready, so that we get eslint and happypack and stuff for react-native also.
+Use haul for react native when it gets ready, so that we get eslint and stuff for react-native also.
