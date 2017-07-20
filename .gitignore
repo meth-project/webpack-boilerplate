@@ -58,3 +58,8 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 vendor
+
+# Haul
+#
+haul-debug.log
+.happypack

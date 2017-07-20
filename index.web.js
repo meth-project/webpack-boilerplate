@@ -1,6 +1,5 @@
 import React from 'react'
 import { AppRegistry } from 'react-native';
-import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader';
 import App from './src/App'
 

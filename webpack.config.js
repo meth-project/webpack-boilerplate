@@ -167,18 +167,13 @@ const BuildConfig = (env = { development: false }) => ({
     contentBase: path.join(__dirname, '/build/'),
     // enable HMR
     hot: true,
-    // embed the webpack-dev-server runtime into the bundle
-    inline: true,
     // serve index.html in place of 404 responses to allow HTML5 history
     historyApiFallback: true,
     port: 3000,
-    compress: true,
   },
   devtool: env.development ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',
   entry: {
     app: env.development ? [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
       'react-hot-loader/patch',
       path.join(__dirname, 'index.web.js'),
     ] : [
