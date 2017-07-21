@@ -7,58 +7,51 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
-const plugins = (env = { development: false }) => (env.development === true ? [
-  new webpack.DefinePlugin({
+const ifDev = (env, plugin) => (env.development === true ? plugin : () => undefined)
+const ifTest = (env, plugin) => (env.test === true ? plugin : () => undefined)
+const ifProd = (env, plugin) => (env.production === true ? plugin : () => undefined)
+const ifTestOrProd = (env, plugin) => (env.test === true || env.production === true ? plugin : () => undefined)
+// we use JSON.stringify for env strings as webpack will think it is a code fragment otherwise
+
+const plugins = (env) => [
+  ifDev(env, new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development'),
     '__DEV__': env.development === true,
     '__OFFLINE__': env.development !== true,
-  }),
+  })),
+  ifProd(env, new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    '__DEV__': env.development === true,
+    '__OFFLINE__': env.development !== true,
+  })),
   new HappyPack({
     loaders: ['babel-loader'],
   }),
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NamedModulesPlugin(),
-] : [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      '__DEV__': env.development === true,
-      '__OFFLINE__': env.development !== true,
-    }),
-    new HappyPack({
-      loaders: ['babel-loader'],
-    }),
-    new LodashModuleReplacementPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
-      compress: {
-        warnings: false, // Suppress uglification warnings
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: false,
-      exclude: [/\.min\.js$/gi],  // skip pre-minified libs
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'zopfli',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8,
-    }),
-    // new OfflinePlugin(),
-  ])
+  ifDev(env, new webpack.HotModuleReplacementPlugin()),
+  ifDev(env, new webpack.NamedModulesPlugin()),
+  ifProd(env, new LodashModuleReplacementPlugin()),
+  ifProd(env, new webpack.optimize.ModuleConcatenationPlugin()),
+  ifProd(env, new webpack.optimize.AggressiveMergingPlugin()),
+  ifProd(env, new webpack.optimize.UglifyJsPlugin({
+    mangle: true,
+    compress: {
+      warnings: false, // Suppress uglification warnings
+      pure_getters: true,
+      unsafe: true,
+      unsafe_comps: true,
+      screw_ie8: true,
+    },
+    output: {
+      comments: false,
+    },
+    sourceMap: false,
+    exclude: [/\.min\.js$/gi],  // skip pre-minified libs
+  })),
+]
 
-const loaders = (env = { development: false }) => ([
+const loaders = (env) => ([
   {
     test: /\.(js)$/,
     enforce: 'pre',
@@ -109,8 +102,9 @@ const resolve = {
   extensions: [".web.js", ".js", ".json"]
 }
 
-const VendorConfig = (env = { development: false }) => ({
+const VendorConfig = (env) => ({
   entry: {
+    // Note: you can't have inter-dependencies between these dlls otherwise they break
     // Put react-native-web / react dependencies in here.
     'react': [
       'react-native-web',
@@ -229,11 +223,6 @@ const BuildConfig = (env = { development: false }) => ({
       inject: true,
     }),
     new AddAssetHtmlPlugin(addAssetHtmlFiles(env)),
-
-    new CopyWebpackPlugin([
-      // Workaround for AddAssetHtmlPlugin not copying compressed .gz files
-      { context: 'vendor/', from: '*.js.gz', to: 'js/vendor/' },
-    ]),
     ...plugins(env),
   ],
   resolve: resolve,
