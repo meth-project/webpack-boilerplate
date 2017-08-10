@@ -20,11 +20,19 @@ const plugins = (env) => [
     'process.env.NODE_ENV': JSON.stringify('development'),
     '__DEV__': env.development === true,
     '__OFFLINE__': env.development !== true,
+    '__API__ENDPOINT__': JSON.stringify('http://localhost:5000'),
+  })),
+  ifTest(env, new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    '__DEV__': env.development === true,
+    '__OFFLINE__': env.development !== true,
+    '__API__ENDPOINT__': JSON.stringify('http://myinstance:5000'),
   })),
   ifProd(env, new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production'),
     '__DEV__': env.development === true,
     '__OFFLINE__': env.development !== true,
+    '__API__ENDPOINT__': JSON.stringify('http://webpack-example.com'),
   })),
   new HappyPack({
     loaders: ['babel-loader'],
@@ -145,8 +153,6 @@ const VendorConfig = (env) => ({
   ],
   resolve: resolve,
 })
-
-
 
 const addAssetHtmlFiles = (env) => {
   return Object.keys(VendorConfig(env).entry).map((name) => {

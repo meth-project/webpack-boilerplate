@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "web": "webpack --env.development --env.vendor && webpack-dev-server --env.development",
-    "web:release": "webpack --env.production --env.vendor && webpack --env.production --progress",
+    "web:test": "webpack --env.test --env.vendor && webpack --env.test --progress",
+    "web:prod": "webpack --env.production --env.vendor && webpack --env.production --progress",
     "web:serve": "http-serve -p 3001 --gzip true ./build",
     "android": "haul start --platform android",
     "ios": "haul start --platform ios"
