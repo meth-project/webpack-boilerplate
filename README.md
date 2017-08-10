@@ -8,10 +8,10 @@ Use the default React Native Packager for iOS and Android:
 
 Script | Description
 ---|---
-`react-native start` | Starts React Native Packager
 `react-native run-ios` | Runs the iOS app
 `react-native run-android` | Runs the Android app
-
+`yarn android` | Builds your app for android
+`yarn ios` | Builds your app for iOS
 
 ## Web
 
@@ -20,8 +20,8 @@ Script | Description
 Script | Description
 ---|---
 `yarn web` | Starts the development server on port `3000`.
-`yarn web:build` | Builds your app, and any implicit vendored libraries.
-`yarn web:serve` | Serves the production build on port `3001`.
+`yarn web:test` | Builds your app for the test environment.
+`yarn web:prod` | Builds your app for the prod environment.
 
 ## TODO
 
